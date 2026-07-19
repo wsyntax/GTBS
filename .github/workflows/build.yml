@@ -157,11 +157,30 @@ jobs:
       - name: Build
         run: ./gradlew build
 
-      - name: Upload artifact
+      - name: Package sources
+        run: |
+          zip -r ${{ env.MOD_NAME }}-${{ matrix.mc }}-sources.zip \
+            src/ \
+            build.gradle \
+            gradle.properties \
+            settings.gradle \
+            gradlew \
+            gradlew.bat \
+            gradle/ \
+            LICENSE \
+            README.md
+
+      - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.MOD_NAME }}-${{ matrix.mc }}
           path: build/libs/*.jar
+
+      - name: Upload sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.MOD_NAME }}-${{ matrix.mc }}-sources
+          path: ${{ env.MOD_NAME }}-${{ matrix.mc }}-sources.zip
 
   release:
     needs: build
@@ -179,5 +198,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/*.jar
+          files: |
+            artifacts/*.jar
+            artifacts/*.zip
           generate_release_notes: true
