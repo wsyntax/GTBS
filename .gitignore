@@ -1,0 +1,34 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+*.launch
+
+# Loom
+remapped/
+loom-cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Fabric
+src/.cache/
+run/
+run-server/
+logs/
+crash-reports/
+
+# Misc
+*.log
+local.properties

@@ -1,0 +1,36 @@
+{
+    "schemaVersion": 1,
+    "id": "guessbuild",
+    "version": "${version}",
+    "name": "Guess The Build Solver",
+    "description": "A Solver/Cheat for Guess the Build in hypixel",
+    "authors": [
+        "Syntax"
+    ],
+    "icon": "icon.png",
+    "contact": {
+        "sources": "https://github.com/SyntaxGTB/Guess-The-Build"
+    },
+    "license": "MIT",
+    "environment": "*",
+    "entrypoints": {
+        "client": [
+            "com.guessbuild.GuessTheBuild"
+        ],
+        "modmenu": [
+            "com.guessbuild.ModMenuIntegration"
+        ]
+    },
+    "mixins": [
+        {
+            "config": "guessbuild.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": "~26.1",
+        "java": ">=25",
+        "fabric-api": "*"
+    }
+}
