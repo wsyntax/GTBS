@@ -1,0 +1,183 @@
+name: Build All Versions
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  MOD_NAME: guessbuild
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mc: "1.20.1"
+            java: 17
+            loader: "0.16.9"
+            loom: "1.6-SNAPSHOT"
+            fabric_api: "0.92.11+1.20.1"
+            modmenu: "7.2.2"
+            mc_range: "~1.20"
+            loader_range: ">=0.15.0"
+            java_range: ">=17"
+          - mc: "1.20.4"
+            java: 17
+            loader: "0.16.9"
+            loom: "1.6-SNAPSHOT"
+            fabric_api: "0.97.3+1.20.4"
+            modmenu: "9.2.0"
+            mc_range: "~1.20.4"
+            loader_range: ">=0.15.0"
+            java_range: ">=17"
+          - mc: "1.20.6"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.7-SNAPSHOT"
+            fabric_api: "0.100.8+1.20.6"
+            modmenu: "10.0.0"
+            mc_range: "~1.20.6"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "1.21.1"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.7-SNAPSHOT"
+            fabric_api: "0.116.14+1.21.1"
+            modmenu: "11.0.4"
+            mc_range: "~1.21"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "1.21.4"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.9-SNAPSHOT"
+            fabric_api: "0.119.4+1.21.4"
+            modmenu: "13.0.4"
+            mc_range: "~1.21.4"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "1.21.5"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.9-SNAPSHOT"
+            fabric_api: "0.128.2+1.21.5"
+            modmenu: "14.0.2"
+            mc_range: "~1.21.5"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "1.21.8"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.10-SNAPSHOT"
+            fabric_api: "0.136.1+1.21.8"
+            modmenu: "16.0.1"
+            mc_range: "~1.21.8"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "1.21.11"
+            java: 21
+            loader: "0.16.14"
+            loom: "1.10-SNAPSHOT"
+            fabric_api: "0.141.5+1.21.11"
+            modmenu: "18.0.0"
+            mc_range: "~1.21.11"
+            loader_range: ">=0.16.0"
+            java_range: ">=21"
+          - mc: "26.1.2"
+            java: 25
+            loader: "0.19.3"
+            loom: "1.17.14"
+            fabric_api: "0.155.2+26.1.2"
+            modmenu: "18.0.0-alpha.8"
+            mc_range: "~26.1"
+            loader_range: ">=0.19.3"
+            java_range: ">=25"
+          - mc: "26.2"
+            java: 25
+            loader: "0.19.3"
+            loom: "1.17.14"
+            fabric_api: "0.155.2+26.2"
+            modmenu: "20.0.1"
+            mc_range: "~26.2"
+            loader_range: ">=0.19.3"
+            java_range: ">=25"
+
+    name: MC ${{ matrix.mc }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java ${{ matrix.java }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: temurin
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Generate gradle.properties
+        run: |
+          cat > gradle.properties << EOF
+          org.gradle.jvmargs=-Xmx1G
+          org.gradle.parallel=true
+          org.gradle.configuration-cache=false
+          
+          # Fabric Properties
+          minecraft_version=${{ matrix.mc }}
+          loader_version=${{ matrix.loader }}
+          loom_version=${{ matrix.loom }}
+          java_version=${{ matrix.java }}
+          
+          # Mod Properties
+          mod_version=1.0.0
+          maven_group=com.guessbuild
+          
+          # Dependencies
+          fabric_api_version=${{ matrix.fabric_api }}
+          modmenu_version=${{ matrix.modmenu }}
+          EOF
+
+      - name: Update fabric.mod.json depends
+        run: |
+          python3 -c "
+          import json
+          with open('src/main/resources/fabric.mod.json', 'r') as f:
+              data = json.load(f)
+          data['depends']['fabricloader'] = '${{ matrix.loader_range }}'
+          data['depends']['minecraft'] = '${{ matrix.mc_range }}'
+          data['depends']['java'] = '${{ matrix.java_range }}'
+          with open('src/main/resources/fabric.mod.json', 'w') as f:
+              json.dump(data, f, indent=4)
+          "
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.MOD_NAME }}-${{ matrix.mc }}
+          path: build/libs/*.jar
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*.jar
+          generate_release_notes: true

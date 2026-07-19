@@ -40,14 +40,24 @@ processResources {
     }
 }
 
+tasks.named("processClientResources").configure {
+    doFirst {
+        def javaVer = project.property('java_version')
+        filesMatching("guessbuild.client.mixins.json") {
+            filter { line -> line.replace('"JAVA_PLACEHOLDER"', '"JAVA_' + javaVer + '"') }
+        }
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 25
+    it.options.release = Integer.parseInt(project.property('java_version'))
 }
 
 java {
+    def javaVer = Integer.parseInt(project.property('java_version'))
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+    sourceCompatibility = JavaVersion.toVersion(javaVer)
+    targetCompatibility = JavaVersion.toVersion(javaVer)
 }
 
 jar {
