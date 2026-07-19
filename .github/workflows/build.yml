@@ -143,16 +143,14 @@ jobs:
 
       - name: Update fabric.mod.json depends
         run: |
-          python3 -c "
-          import json
-          with open('src/main/resources/fabric.mod.json', 'r') as f:
-              data = json.load(f)
-          data['depends']['fabricloader'] = '${{ matrix.loader_range }}'
-          data['depends']['minecraft'] = '${{ matrix.mc_range }}'
-          data['depends']['java'] = '${{ matrix.java_range }}'
-          with open('src/main/resources/fabric.mod.json', 'w') as f:
-              json.dump(data, f, indent=4)
-          "
+          jq --arg fl "${{ matrix.loader_range }}" \
+             --arg mc "${{ matrix.mc_range }}" \
+             --arg java "${{ matrix.java_range }}" \
+             '.depends.fabricloader = $fl | .depends.minecraft = $mc | .depends.java = $java' \
+             src/main/resources/fabric.mod.json > tmp.json && mv tmp.json src/main/resources/fabric.mod.json
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Build
         run: ./gradlew build
