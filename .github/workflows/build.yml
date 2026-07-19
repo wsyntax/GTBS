@@ -189,8 +189,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
@@ -204,32 +202,3 @@ jobs:
             artifacts/*.jar
             artifacts/*.zip
           generate_release_notes: true
-
-      - name: Upload to Modrinth
-        if: ${{ secrets.MODRINTH_TOKEN != '' }}
-        uses: modrinth/upload-workflow-action@v1
-        with:
-          token: ${{ secrets.MODRINTH_TOKEN }}
-          project_id: ${{ secrets.MODRINTH_PROJECT_ID }}
-          version_number: ${{ github.ref_name }}
-          name: "${{ github.ref_name }} - Guess The Build Solver"
-          version_type: release
-          files: artifacts/*.jar
-          loaders: fabric
-          game_versions: "1.20.1,1.20.4,1.20.6,1.21.1,1.21.4,1.21.5,1.21.8,1.21.11,26.1.2,26.2"
-
-      - name: Upload to CurseForge
-        if: ${{ secrets.CURSEFORGE_TOKEN != '' }}
-        env:
-          CF_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-          CF_PROJECT_ID: ${{ secrets.CURSEFORGE_PROJECT_ID }}
-        run: |
-          for jar in artifacts/guessbuild-*.jar; do
-            mc_ver=$(basename "$jar" | sed 's/guessbuild-//;s/\.jar//')
-            echo "Uploading $jar for MC $mc_ver..."
-            curl -X POST "https://minecraft.curseforge.com/api/projects/$CF_PROJECT_ID/upload-file" \
-              -H "x-api-key: $CF_TOKEN" \
-              -F "file=@$jar" \
-              -F "metadata={\"gameVersions\":[$mc_ver],\"releaseType\":\"release\"}" \
-              -F "changelog=MC $mc_ver support"
-          done
