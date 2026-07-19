@@ -18,7 +18,7 @@ jobs:
           - mc: "1.20.1"
             java: 17
             loader: "0.16.9"
-            loom: "1.6-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.92.11+1.20.1"
             modmenu: "7.2.2"
             mc_range: "~1.20"
@@ -27,7 +27,7 @@ jobs:
           - mc: "1.20.4"
             java: 17
             loader: "0.16.9"
-            loom: "1.6-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.97.3+1.20.4"
             modmenu: "9.2.0"
             mc_range: "~1.20.4"
@@ -36,7 +36,7 @@ jobs:
           - mc: "1.20.6"
             java: 21
             loader: "0.16.14"
-            loom: "1.7-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.100.8+1.20.6"
             modmenu: "10.0.0"
             mc_range: "~1.20.6"
@@ -45,7 +45,7 @@ jobs:
           - mc: "1.21.1"
             java: 21
             loader: "0.16.14"
-            loom: "1.7-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.116.14+1.21.1"
             modmenu: "11.0.4"
             mc_range: "~1.21"
@@ -54,7 +54,7 @@ jobs:
           - mc: "1.21.4"
             java: 21
             loader: "0.16.14"
-            loom: "1.9-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.119.4+1.21.4"
             modmenu: "13.0.4"
             mc_range: "~1.21.4"
@@ -63,7 +63,7 @@ jobs:
           - mc: "1.21.5"
             java: 21
             loader: "0.16.14"
-            loom: "1.9-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.128.2+1.21.5"
             modmenu: "14.0.2"
             mc_range: "~1.21.5"
@@ -72,7 +72,7 @@ jobs:
           - mc: "1.21.8"
             java: 21
             loader: "0.16.14"
-            loom: "1.10-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.136.1+1.21.8"
             modmenu: "16.0.1"
             mc_range: "~1.21.8"
@@ -81,7 +81,7 @@ jobs:
           - mc: "1.21.11"
             java: 21
             loader: "0.16.14"
-            loom: "1.10-SNAPSHOT"
+            loom: "1.17.16"
             fabric_api: "0.141.5+1.21.11"
             modmenu: "18.0.0"
             mc_range: "~1.21.11"
@@ -90,7 +90,7 @@ jobs:
           - mc: "26.1.2"
             java: 25
             loader: "0.19.3"
-            loom: "1.17.14"
+            loom: "1.17.16"
             fabric_api: "0.155.2+26.1.2"
             modmenu: "18.0.0-alpha.8"
             mc_range: "~26.1"
@@ -99,7 +99,7 @@ jobs:
           - mc: "26.2"
             java: 25
             loader: "0.19.3"
-            loom: "1.17.14"
+            loom: "1.17.16"
             fabric_api: "0.155.2+26.2"
             modmenu: "20.0.1"
             mc_range: "~26.2"
