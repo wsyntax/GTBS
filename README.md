@@ -13,6 +13,7 @@
   <img src="https://img.shields.io/github/license/wsyntax/GTBS?style=flat-square" alt="License">
   <img src="https://img.shields.io/badge/Minecraft-1.20.x--26.x-brightgreen?style=flat-square" alt="Minecraft Versions">
   <img src="https://img.shields.io/badge/Mod%20Loader-Fabric-blue?style=flat-square" alt="Fabric">
+  <img src="https://komarev.com/ghpvc/?username=wsyntax&repo=GTBS&style=flat-square&color=blue" alt="Profile Views">
 </p>
 
 ---
