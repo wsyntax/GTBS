@@ -9,7 +9,9 @@
     ],
     "icon": "icon.png",
     "contact": {
-        "sources": "https://github.com/SyntaxGTB/Guess-The-Build"
+        "homepage": "https://github.com/wsyntax/GTBS",
+        "sources": "https://github.com/wsyntax/GTBS",
+        "issues": "https://github.com/wsyntax/GTBS/issues"
     },
     "license": "MIT",
     "environment": "*",

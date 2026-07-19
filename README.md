@@ -32,23 +32,20 @@
 
 ## Supported Versions
 
-| Minecraft | Branch | Java |
-|-----------|--------|------|
-| 1.20.1 | `1.20.1` | 17 |
-| 1.20.4 | `1.20.4` | 17 |
-| 1.20.6 | `1.20.6` | 21 |
-| 1.21.1 | `1.21.1` | 21 |
-| 1.21.4 | `1.21.4` | 21 |
-| 1.21.5 | `1.21.5` | 21 |
-| 1.21.8 | `1.21.8` | 21 |
-| 1.21.11 | `1.21.11` | 21 |
-| 26.1.2 | `main` | 25 |
-| 26.2 | `26.2` | 25 |
+| Minecraft | Java | Jar |
+|-----------|------|-----|
+| 1.20.1 | 17 | `guessbuild-1.20.1.jar` |
+| 1.20.4 | 17 | `guessbuild-1.20.4.jar` |
+| 1.20.6 | 21 | `guessbuild-1.20.6.jar` |
+| 1.21.1 | 21 | `guessbuild-1.21.1.jar` |
+| 1.21.4 | 21 | `guessbuild-1.21.4.jar` |
+| 1.21.5 | 21 | `guessbuild-1.21.5.jar` |
+| 1.21.8 | 21 | `guessbuild-1.21.8.jar` |
+| 1.21.11 | 21 | `guessbuild-1.21.11.jar` |
+| 26.1.2 | 25 | `guessbuild-26.1.2.jar` |
+| 26.2 | 25 | `guessbuild-26.2.jar` |
 
-Switch branches to download the version you need:
-```bash
-git clone -b 1.21.4 https://github.com/wsyntax/GTBS.git
-```
+Download the jar matching your MC version from [Releases](../../releases).
 
 ## Requirements
 
@@ -56,7 +53,7 @@ git clone -b 1.21.4 https://github.com/wsyntax/GTBS.git
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [Mod Menu](https://modrinth.com/mod/modmenu) (optional, for settings)
 
-Exact dependency versions are listed in `gradle.properties` for each branch.
+Exact dependency versions are listed in `gradle.properties`.
 
 ## Installation
 
@@ -104,11 +101,12 @@ Open settings with **F8** or via **Mod Menu**:
 ```bash
 git clone https://github.com/wsyntax/GTBS.git
 cd GTBS
-git checkout <your-mc-version>   # e.g. 1.21.4
 ./gradlew build
 ```
 
 The built jar will be in `build/libs/`.
+
+To build for a different MC version, edit `gradle.properties` with the correct versions and rebuild.
 
 ## Word List
 
